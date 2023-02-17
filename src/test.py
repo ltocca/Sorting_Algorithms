@@ -6,6 +6,7 @@ import random
 import time
 from timeit import default_timer as timer
 import matplotlib.pyplot as plt
+from tabulate import tabulate
 
 
 def random_list(n):
@@ -35,7 +36,7 @@ def quick_test(array):
     return round(end - start, 4)
 
 
-def test(shuffle = False):
+def test(shuffle=True):
     n = 100
     n_max = 10000
     shell_time = []
@@ -49,12 +50,32 @@ def test(shuffle = False):
         if shuffle:
             np.shuffle(values)
 
-        shell_test(values)
-        insertion_test(values)
-        quick_test(values)
+        shell_time.append(shell_test(values))
+        insertion_time.append(insertion_test(values))
+        quick_time.append(quick_test(values))
         n += 100
 
     table = []
+    table.append(["Numero di valori", "Shell Sort", "Insertion Sort", "Quick Sort"])
+    for i in range(len(incr)):
+        tab = []
+        tab.append(i)
+        tab.append(shell_time[i])
+        tab.append(insertion_time[i])
+        tab.append(quick_time[i])
+        table.append(tab)
+
+    with open('data/sorting_table.txt', 'w') as f:
+        f.write(tabulate(table, headers='firstrow', tablefmt='fancy_grid'))
+
+    plt.figure(1)
+    plt.ylabel("time")
+    plt.xlabel("values")
+    plt.plot(incr, shell_time, 'g-', label='Shell Sort')
+    plt.plot(incr, insertion_time, 'b-', label='Insertion Sort')
+    plt.plot(incr, quick_time, 'y-', label='Quick Sort')
+    plt.legend()
+    plt.savefig('img/plot.png')
 
 
 def main():
