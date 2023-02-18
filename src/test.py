@@ -47,7 +47,7 @@ def test(shuffle=False):
     quick_time = []
     incr = []
 
-    for i in range(n_max):
+    while n <= n_max:
         incr.append(n)
         if shuffle:
             shell_time.append(shell_test(random_list(n)))
@@ -81,10 +81,12 @@ def test(shuffle=False):
     plt.plot(incr, quick_time, 'y-', label='Quick Sort')
     plt.legend()
     plt.savefig(f'img/{"rand" if shuffle else "ord"}/{"_comparison"}.png')
+    plt.clf()
 
 
 def main():
     test()
+    test(True)
 
 
 if __name__ == "__main__":
