@@ -7,6 +7,9 @@ import time
 from timeit import default_timer as timer
 import matplotlib.pyplot as plt
 from tabulate import tabulate
+import sys
+
+sys.setrecursionlimit(100000)
 
 
 def random_list(n):
@@ -31,12 +34,12 @@ def insertion_test(array):
 
 def quick_test(array):
     start = timer()
-    shell_sort(array)
+    quick_sort(array)
     end = timer()
     return round(end - start, 4)
 
 
-def test(shuffle=True):
+def test(shuffle=False):
     n = 100
     n_max = 10000
     shell_time = []
@@ -46,13 +49,15 @@ def test(shuffle=True):
 
     for i in range(n_max):
         incr.append(n)
-        values = np.arange(n)
         if shuffle:
-            np.shuffle(values)
-
-        shell_time.append(shell_test(values))
-        insertion_time.append(insertion_test(values))
-        quick_time.append(quick_test(values))
+            shell_time.append(shell_test(random_list(n)))
+            insertion_time.append(shell_test(random_list(n)))
+            quick_time.append(shell_test(random_list(n)))
+        else:
+            values = np.arange(n)
+            shell_time.append(shell_test(values))
+            insertion_time.append(insertion_test(values))
+            quick_time.append(quick_test(values))
         n += 100
 
     table = []
@@ -75,7 +80,7 @@ def test(shuffle=True):
     plt.plot(incr, insertion_time, 'b-', label='Insertion Sort')
     plt.plot(incr, quick_time, 'y-', label='Quick Sort')
     plt.legend()
-    plt.savefig('img/plot.png')
+    plt.savefig(f'img/{"rand" if shuffle else "ord"}/{"_comparison"}.png')
 
 
 def main():
