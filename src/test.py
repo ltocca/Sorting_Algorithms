@@ -64,23 +64,23 @@ def test(shuffle=False):
     table.append(["Numero di valori", "Shell Sort", "Insertion Sort", "Quick Sort"])
     for i in range(len(incr)):
         tab = []
-        tab.append(i)
+        tab.append(i * 100)
         tab.append(shell_time[i])
         tab.append(insertion_time[i])
         tab.append(quick_time[i])
         table.append(tab)
 
-    with open('data/sorting_table.txt', 'w') as f:
+    with open(f'data//{"rand" if shuffle else "ord"}/sorting_table.txt', 'w') as f:
         f.write(tabulate(table, headers='firstrow', tablefmt='fancy_grid'))
 
     plt.figure(1)
     plt.ylabel("time")
     plt.xlabel("values")
-    plt.plot(incr, shell_time, 'g-', label='Shell Sort')
-    plt.plot(incr, insertion_time, 'b-', label='Insertion Sort')
-    plt.plot(incr, quick_time, 'y-', label='Quick Sort')
+    plt.plot(incr, shell_time, label='Shell Sort')
+    plt.plot(incr, insertion_time, label='Insertion Sort')
+    plt.plot(incr, quick_time, label='Quick Sort')
     plt.legend()
-    plt.savefig(f'img/{"rand" if shuffle else "ord"}/{"_comparison"}.png')
+    plt.savefig(f'img/{"rand" if shuffle else "ord"}/{"rand" if shuffle else "ord"}_comparison.png')
     plt.clf()
 
 
