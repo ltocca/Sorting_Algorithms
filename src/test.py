@@ -39,15 +39,14 @@ def quick_test(array):
     return round(end - start, 4)
 
 
-def test(shuffle=False):
-    n = 100
-    n_max = 10000
+def test(shuffle=False, nm=10000, i=100):
+    n = i
     shell_time = []
     insertion_time = []
     quick_time = []
     incr = []
 
-    while n <= n_max:
+    while n <= nm:
         incr.append(n)
         if shuffle:
             shell_time.append(shell_test(random_list(n)))
@@ -58,7 +57,8 @@ def test(shuffle=False):
             shell_time.append(shell_test(values))
             insertion_time.append(insertion_test(values))
             quick_time.append(quick_test(values))
-        n += 100
+        print("numero di valori = " + str(n))
+        n += i
 
     table = []
     table.append(["Numero di valori", "Shell Sort", "Insertion Sort", "Quick Sort"])
@@ -70,7 +70,7 @@ def test(shuffle=False):
         tab.append(quick_time[i])
         table.append(tab)
 
-    with open(f'data//{"rand" if shuffle else "ord"}/sorting_table.txt', 'w') as f:
+    with open(f'data//{"rand" if shuffle else "ord"}/sorting_table_n_' + str(nm) + '.txt', 'w') as f:
         f.write(tabulate(table, headers='firstrow', tablefmt='fancy_grid'))
 
     plt.figure(1)
@@ -80,13 +80,14 @@ def test(shuffle=False):
     plt.plot(incr, insertion_time, label='Insertion Sort')
     plt.plot(incr, quick_time, label='Quick Sort')
     plt.legend()
-    plt.savefig(f'img/{"rand" if shuffle else "ord"}/{"rand" if shuffle else "ord"}_comparison.png')
+    plt.savefig(f'img/{"rand" if shuffle else "ord"}/{"rand" if shuffle else "ord"}_comparison' + str(nm) + '.png')
     plt.clf()
 
 
 def main():
-    test()
-    test(True)
+    # test()
+    # test(True)
+    test(True, 1000000, 10000)
 
 
 if __name__ == "__main__":
