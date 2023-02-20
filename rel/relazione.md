@@ -3,7 +3,7 @@ author:
 
 - Leonardo Toccafondi   
   date: February, 2023
-  title: Comparazione tra algoritmi di ordinamento: Insertion Sort, Shell Sort, Quick Sort
+  title: Comparazione tra algoritmi di ordinamento Insertion Sort, Shell Sort, Quick Sort
 
 ---
 
