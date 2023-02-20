@@ -2,7 +2,7 @@ import random
 
 
 def quick_sort(a):  # array -> a
-    quick_sort_r(a, 1, len(a) - 1)
+    quick_sort_r(a, 0, len(a) - 1)
 
 
 def quick_sort_r(a, p, r):  # parte ricorsiva del codice, p-> inizio, r->fine
