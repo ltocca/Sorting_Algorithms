@@ -49,9 +49,10 @@ def test(shuffle=False, nm=10000, i=100):
     while n <= nm:
         incr.append(n)
         if shuffle:
-            shell_time.append(shell_test(random_list(n)))
-            insertion_time.append(shell_test(random_list(n)))
-            quick_time.append(shell_test(random_list(n)))
+            values = random_list(n)
+            shell_time.append(shell_test(np.copy(values)))
+            insertion_time.append(insertion_test(np.copy(values)))
+            quick_time.append(quick_test(np.copy(values)))
         else:
             values = np.arange(n)
             shell_time.append(shell_test(values))
@@ -85,9 +86,9 @@ def test(shuffle=False, nm=10000, i=100):
 
 
 def main():
-    # test()
+    test()
     # test(True)
-    test(True, 1000000, 10000)
+    # test(True, 1000000, 10000)
 
 
 if __name__ == "__main__":
