@@ -3,7 +3,7 @@ import math
 
 def shell_sort(a):  # a è l'array
     n = len(a)
-    step = math.floor(n / 2)
+    step = n // 2
     while step > 0:
         for i in range(step, n):
             j = i - step

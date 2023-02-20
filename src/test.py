@@ -39,9 +39,9 @@ def quick_test(array):
     return round(end - start, 4)
 
 
-def test(shuffle=False, nm=10000, i=100):
+def test(shuffle=False, nm=10000, i=100, rev = False):
     n = i
-    shell_time = []
+    #shell_time = []
     insertion_time = []
     quick_time = []
     incr = []
@@ -50,14 +50,16 @@ def test(shuffle=False, nm=10000, i=100):
         incr.append(n)
         if shuffle:
             values = random_list(n)
-            shell_time.append(shell_test(np.copy(values)))
+            #shell_time.append(shell_test(np.copy(values)))
             insertion_time.append(insertion_test(np.copy(values)))
             quick_time.append(quick_test(np.copy(values)))
         else:
             values = np.arange(n)
-            shell_time.append(shell_test(values))
-            insertion_time.append(insertion_test(values))
-            quick_time.append(quick_test(values))
+            if rev:
+                values = values[::-1]
+            #shell_time.append(shell_test(np.copy(values)))
+            insertion_time.append(insertion_test(np.copy(values)))
+            quick_time.append(quick_test(np.copy(values)))
         print("numero di valori = " + str(n))
         n += i
 
@@ -66,29 +68,38 @@ def test(shuffle=False, nm=10000, i=100):
     for i in range(len(incr)):
         tab = []
         tab.append(i * 100)
-        tab.append(shell_time[i])
+        #tab.append(shell_time[i])
         tab.append(insertion_time[i])
         tab.append(quick_time[i])
         table.append(tab)
 
-    with open(f'data//{"rand" if shuffle else "ord"}/sorting_table_n_' + str(nm) + '.txt', 'w') as f:
+    if shuffle:
+        dir = "rand"
+    elif rev:
+        dir = "ord_rev"
+    else:
+        dir = "ord"
+
+    with open(f'data//' + dir + '/sorting_table_n_' + str(nm) + '.txt', 'w') as f:
         f.write(tabulate(table, headers='firstrow', tablefmt='fancy_grid'))
 
     plt.figure(1)
     plt.ylabel("time")
     plt.xlabel("values")
-    plt.plot(incr, shell_time, label='Shell Sort')
+    #plt.plot(incr, shell_time, label='Shell Sort')
     plt.plot(incr, insertion_time, label='Insertion Sort')
     plt.plot(incr, quick_time, label='Quick Sort')
     plt.legend()
-    plt.savefig(f'img/{"rand" if shuffle else "ord"}/{"rand" if shuffle else "ord"}_comparison' + str(nm) + '.png')
+
+    plt.savefig(f'img/'+dir+'/'+ dir + '_comparison' + str(nm) + '.png')
     plt.clf()
 
 
 def main():
     test()
-    # test(True)
-    # test(True, 1000000, 10000)
+    test(rev=True)
+    test(True)
+    #test(True, 1000000, 10000)
 
 
 if __name__ == "__main__":
