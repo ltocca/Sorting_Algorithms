@@ -51,9 +51,13 @@ def test(shuffle=False, nm=10000, i=100, rev=False):
         print("numero di valori = " + str(n))
         n += i
 
-    table = [["Numero di valori", "Insertion Sort", "Quick Sort"]]
-    for i in range(len(incr)):
-        tab = [i * 100, insertion_time[i], quick_time[i]]
+    table = []
+    table.append(["Numero di valori", "Shell Sort", "Insertion Sort", "Quick Sort"])
+    for j in range(len(incr)):
+        tab = []
+        tab.append(j * i + i)
+        tab.append(insertion_time[j])
+        tab.append(quick_time[j])
         table.append(tab)
 
     if shuffle:
@@ -78,10 +82,10 @@ def test(shuffle=False, nm=10000, i=100, rev=False):
 
 
 def main():
-    test()
-    test(rev=True)
-    test(True)
-    test(True, 1000000, 10000)
+    # test()
+    # test(rev=True)
+    # test(True)
+    test(True, 2000, 100)
 
 
 if __name__ == "__main__":
