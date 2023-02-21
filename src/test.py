@@ -1,13 +1,11 @@
-from shell_sort import *
 from insertion_sort import *
 from quick_sort import *
 import numpy as np
-import random
-import time
 from timeit import default_timer as timer
 import matplotlib.pyplot as plt
 from tabulate import tabulate
 import sys
+
 
 sys.setrecursionlimit(100000)
 
@@ -16,13 +14,6 @@ def random_list(n):
     a = np.arange(n)
     np.random.shuffle(a)
     return a
-
-
-def shell_test(array):
-    start = timer()
-    shell_sort(array)
-    end = timer()
-    return round(end - start, 4)
 
 
 def insertion_test(array):
@@ -39,9 +30,8 @@ def quick_test(array):
     return round(end - start, 4)
 
 
-def test(shuffle=False, nm=10000, i=100, rev = False):
+def test(shuffle=False, nm=10000, i=100, rev=False):
     n = i
-    #shell_time = []
     insertion_time = []
     quick_time = []
     incr = []
@@ -50,48 +40,40 @@ def test(shuffle=False, nm=10000, i=100, rev = False):
         incr.append(n)
         if shuffle:
             values = random_list(n)
-            #shell_time.append(shell_test(np.copy(values)))
             insertion_time.append(insertion_test(np.copy(values)))
             quick_time.append(quick_test(np.copy(values)))
         else:
             values = np.arange(n)
             if rev:
                 values = values[::-1]
-            #shell_time.append(shell_test(np.copy(values)))
             insertion_time.append(insertion_test(np.copy(values)))
             quick_time.append(quick_test(np.copy(values)))
         print("numero di valori = " + str(n))
         n += i
 
-    table = []
-    table.append(["Numero di valori", "Shell Sort", "Insertion Sort", "Quick Sort"])
+    table = [["Numero di valori", "Insertion Sort", "Quick Sort"]]
     for i in range(len(incr)):
-        tab = []
-        tab.append(i * 100)
-        #tab.append(shell_time[i])
-        tab.append(insertion_time[i])
-        tab.append(quick_time[i])
+        tab = [i * 100, insertion_time[i], quick_time[i]]
         table.append(tab)
 
     if shuffle:
-        dir = "rand"
+        directory = "rand"
     elif rev:
-        dir = "ord_rev"
+        directory = "ord_rev"
     else:
-        dir = "ord"
+        directory = "ord"
 
-    with open(f'data//' + dir + '/sorting_table_n_' + str(nm) + '.txt', 'w') as f:
+    with open(f'data//' + directory + '/sorting_table_n_' + str(nm) + '.txt', 'w') as f:
         f.write(tabulate(table, headers='firstrow', tablefmt='fancy_grid'))
 
     plt.figure(1)
-    plt.ylabel("time")
-    plt.xlabel("values")
-    #plt.plot(incr, shell_time, label='Shell Sort')
+    plt.ylabel("Tempo")
+    plt.xlabel("Numero di valori")
     plt.plot(incr, insertion_time, label='Insertion Sort')
     plt.plot(incr, quick_time, label='Quick Sort')
     plt.legend()
 
-    plt.savefig(f'img/'+dir+'/'+ dir + '_comparison' + str(nm) + '.png')
+    plt.savefig(f'img/' + directory + '/' + directory + '_comparison' + str(nm) + '.png')
     plt.clf()
 
 
@@ -99,7 +81,7 @@ def main():
     test()
     test(rev=True)
     test(True)
-    #test(True, 1000000, 10000)
+    test(True, 1000000, 10000)
 
 
 if __name__ == "__main__":
